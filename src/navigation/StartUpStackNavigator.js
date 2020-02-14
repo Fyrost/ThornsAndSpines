@@ -12,7 +12,15 @@ export default createStackNavigator({
   SignUp: {
     screen: SignUpPage,
     navigationOptions: {
-      title: "SignUp"
+      title: "Create Account",
     }
+  }
+},{
+  headerLayoutPreset:"center",
+  defaultNavigationOptions:{
+    headerStyle:{
+      backgroundColor:"#2d6a27"
+    },
+    headerTintColor: "white"
   }
 });
