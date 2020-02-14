@@ -1,11 +1,16 @@
 import React, { Component } from "react";
 import { View, Text, StyleSheet } from "react-native";
+import { Button } from "react-native-elements";
 
-class LoginScreen extends Component {
+class SignUpPage extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text>Oye!</Text>
+        <Text>SignUp</Text>
+        <Button
+          title={"Login"}
+          onPress={() => this.props.navigation.navigate("Login")}
+        />
       </View>
     );
   }
@@ -20,4 +25,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default LoginScreen;
+export default SignUpPage;
