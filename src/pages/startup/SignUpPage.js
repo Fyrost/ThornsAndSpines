@@ -1,12 +1,12 @@
 import React, { Component } from "react";
-import { View,Text } from "react-native";
+import { View, Text } from "react-native";
 import { Button, Input } from "react-native-elements";
 
 class SignUpPage extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text>Customer Information</Text>
+        <Text style={styles.titleText}>Customer Information</Text>
         <Input
           label="First Name:*"
           labelStyle={styles.inputLabel}
@@ -27,13 +27,19 @@ const styles = {
     flex: 1,
     backgroundColor: "#fff",
     alignItems: "center",
-    justifyContent: "center",
-    paddingHorizontal: 10
+
+    padding: 20
+  },
+  titleText: {
+    color: "#2d6a27",
+    fontSize: 20,
+    marginBottom: 10
   },
   inputLabel: {
     color: "#2d6a27",
     fontWeight: "normal",
-    fontSize: 13
+    fontSize: 13,
+    marginBottom:3
   },
   inputText: {
     fontSize: 13
