@@ -4,6 +4,6 @@ import AppNavigator from "./AppTabNavigator";
 export default createAppContainer(
   createSwitchNavigator({
     startUp: StartUpNavigator,
-    appli: AppNavigator
+    app: AppNavigator
   })
 );
