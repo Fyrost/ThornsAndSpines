@@ -36,7 +36,12 @@ export default createBottomTabNavigator(
     }
   },
   {
-    unmountOnBlur: true,
+    defaultNavigationOptions: {
+      tabBarOnPress: ({ navigation, defaultHandler }) => {
+        navigation.popToTop();
+        defaultHandler();
+      }
+    },
     tabBarOptions: {
       activeBackgroundColor: "white",
       activeTintColor: "#0e250c",
