@@ -54,7 +54,7 @@ class LoginPage extends Component {
                 type="font-awesome"
                 name={this.state.eyeIcon}
                 color="white"
-                underlayColor="none"
+                underlayColor="transparent"
                 onPress={() =>
                   this.setState({
                     secureEntry: !this.state.secureEntry,
