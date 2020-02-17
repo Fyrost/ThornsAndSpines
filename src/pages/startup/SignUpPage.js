@@ -46,7 +46,7 @@ class SignUpPage extends Component {
               inputStyle={styles.inputText}
               inputContainerStyle={styles.inputContainer}
             />
-            <Text style={styles.titleText}>Shipping Information</Text>
+            {/* <Text style={styles.titleText}>Shipping Information</Text>
             <Input
               label="Shipping Address:*"
               labelStyle={styles.inputLabel}
@@ -64,7 +64,7 @@ class SignUpPage extends Component {
               labelStyle={styles.inputLabel}
               inputStyle={styles.inputText}
               inputContainerStyle={styles.inputContainer}
-            />
+            /> */}
 
             {/* <Button
           title={"Login"}
