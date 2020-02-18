@@ -1,16 +1,46 @@
 import React, { Component } from "react";
 import { View, Text, ImageBackground } from "react-native";
-import { Button, Input, Icon } from "react-native-elements";
+import { Button, Input, Icon, Overlay } from "react-native-elements";
+import Axios from "axios";
 
 class LoginPage extends Component {
   state = {
     secureEntry: true,
     eyeIcon: "eye",
-    error:""
+    error: "",
+    layout: true,
+    baseURL: "192.168.1.4"
   };
-  pressEye() {
-    this.setState(!this.state.secureEntry);
-  }
+
+  overlay = () => {
+    return (
+      <Overlay
+        isVisible={this.state.layout}
+        height={"auto"}
+        overlayContainerStyle={{ padding: 50 }}
+        borderRadius={0}
+        windowBackgroundColor={"rgba(0, 0, 0, .8)"}
+      >
+        <View>
+          <Input
+            label="Base URL:"
+            value={this.state.baseURL}
+            onChangeText={baseURL => this.setState({ baseURL })}
+          />
+          <Button
+            title={"enter"}
+            onPress={() => {
+              Axios.defaults.baseURL = `http://${this.state.baseURL}/thornsandspine/public/`;
+              Axios.defaults.headers.common["Accept"] = "application/json";
+              this.setState({ layout: false });
+              alert(`http://${this.state.baseURL}/thornsandspine/public/`);
+            }}
+          />
+        </View>
+      </Overlay>
+    );
+  };
+
   render() {
     return (
       <ImageBackground
@@ -19,6 +49,7 @@ class LoginPage extends Component {
         style={styles.containerImage}
       >
         <View style={styles.container}>
+          {this.overlay()}
           <Text>Logo</Text>
           <Input
             placeholder="sample@email.com"
@@ -69,6 +100,12 @@ class LoginPage extends Component {
           <View style={styles.textContainer}>
             <Text
               style={styles.textLink}
+              onPress={() => this.props.navigation.navigate("Resend")}
+            >
+              Verify Account
+            </Text>
+            <Text
+              style={styles.textLink}
               onPress={() => this.props.navigation.navigate("SignUp")}
             >
               Create Account
@@ -98,14 +135,20 @@ const styles = {
   inputText: { color: "#f9f9f9" },
   inputLabel: { color: "white" },
   inputLeftIcon: { paddingRight: 10 },
-  inputContainer: { borderBottomColor: "white", opacity: 0.8,paddingBottom:20 },
-  textContainer: { flexDirection: "row",paddingBottom:20 },
+  inputContainer: {
+    borderBottomColor: "white",
+    opacity: 0.8,
+    paddingBottom: 20
+  },
+  textContainer: {
+    flexDirection: "row",
+    paddingBottom: 20,
+  },
   textLink: {
     textDecorationLine: "underline",
     flex: 1,
     color: "lightblue",
-    textAlign: "right",
-    paddingRight: 20
+    textAlign: "center"
   },
   buttonContainer: { borderColor: "white" },
   buttonTitle: { color: "white", paddingHorizontal: 10 }
