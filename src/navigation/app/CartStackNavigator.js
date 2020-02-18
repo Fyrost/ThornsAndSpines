@@ -31,4 +31,13 @@ export default createStackNavigator(
       }
     }
   },
+  {
+    headerLayoutPreset: "center",
+    defaultNavigationOptions: {
+      headerStyle: {
+        backgroundColor: "#2d6a27"
+      },
+      headerTintColor: "white"
+    }
+  }
 );
