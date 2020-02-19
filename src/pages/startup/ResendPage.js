@@ -8,6 +8,7 @@ class ResendPage extends Component {
     loading: false,
     email: ""
   };
+
   postResend = () => {
     const { email } = this.state;
     this.setState({ loading: true });
@@ -27,6 +28,7 @@ class ResendPage extends Component {
         alert(catchError(err));
       });
   };
+
   render() {
     return (
       <View style={styles.container}>
@@ -35,6 +37,7 @@ class ResendPage extends Component {
           label="Email"
           containerStyle={{ paddingHorizontal: 20, paddingVertical: 10 }}
           inputContainerStyle={{ paddingHorizontal: 20 }}
+          disabled={this.state.loading}
         />
         <Button
           title={"Send"}
@@ -43,10 +46,12 @@ class ResendPage extends Component {
           onPress={() => {
             this.postResend();
           }}
+          loading={this.state.loading}
         />
         <Button
           title={"Already have\nverification Code"}
           onPress={() => this.props.navigation.navigate("Verify")}
+          disabled={this.state.loading}
         />
       </View>
     );
