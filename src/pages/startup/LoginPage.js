@@ -16,17 +16,17 @@ class LoginPage extends Component {
     baseURL: "192.168.1.4"
   };
 
-  postResend = () => {
+  postLoginAccount = () => {
     const { email, password } = this.state;
-    this.setState({ loading: true });
+    this.setState({ loading: true, error: "" });
     loginAccount({ email, password })
       .then(res => {
         this.setState({ loading: false });
         if (res.data.success) {
-          this.props.navigation.navigate("app");
+          // this.props.navigation.navigate("app");
         } else {
-          this.state({ error: res.data.msg });
         }
+        this.setState({ error: res.data.msg });
       })
       .catch(err => {
         this.setState({
@@ -65,6 +65,7 @@ class LoginPage extends Component {
   };
 
   render() {
+    const { email, password } = this.state;
     return (
       <ImageBackground
         source={require("../../../assets/loginBG.jpg")}
@@ -89,6 +90,7 @@ class LoginPage extends Component {
               containerStyle={styles.inputContainer}
               leftIconContainerStyle={styles.inputLeftIcon}
               placeholderTextColor="gray"
+              editable={!this.state.loading}
             />
             <Input
               placeholder="Password123!"
@@ -120,6 +122,7 @@ class LoginPage extends Component {
               }
               errorMessage={this.state.error}
               secureTextEntry={this.state.secureEntry}
+              editable={!this.state.loading}
             />
             <View style={styles.textContainer}>
               <Text
@@ -140,7 +143,8 @@ class LoginPage extends Component {
               type={"outline"}
               titleStyle={styles.buttonTitle}
               buttonStyle={styles.buttonContainer}
-              onPress={() => this.props.navigation.navigate("app")}
+              onPress={() => this.postLoginAccount()}
+              loading={this.state.loading}
             />
           </View>
         </KeyBoardShift>
