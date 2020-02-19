@@ -1,8 +1,13 @@
 import React, { Component } from "react";
-import { View, Text, ScrollView } from "react-native";
-import { Button, Input, Overlay } from "react-native-elements";
+import { View, Text, ScrollView, Picker } from "react-native";
+import { Button, Input } from "react-native-elements";
 import KeyboardShift from "../../component/KeyboardShift";
-import { createAccount, catchError } from "../../misc/api";
+import {
+  getProvince,
+  getCity,
+  createAccount,
+  catchError
+} from "../../misc/api";
 
 class SignUpPage extends Component {
   state = {
@@ -13,7 +18,10 @@ class SignUpPage extends Component {
     first_name: "Francis",
     last_name: "Antonio",
     address: "asdfga",
-    city: "antios",
+    province: {},
+    provinceId: "",
+    city: {},
+    shipping_fees_id: "",
     contact_number: "9548757",
     error: {
       email: "",
@@ -27,6 +35,18 @@ class SignUpPage extends Component {
     }
   };
 
+  UNSAFE_componentWillMount() {
+    getProvince()
+      .then(res => {
+        const data = res.data.data;
+        this.setState({ province: data });
+      })
+      .catch(err => {
+        this.setState({ loading: false });
+        alert(catchError(err));
+      });
+  }
+
   postRegister = () => {
     const {
       email,
@@ -35,9 +55,10 @@ class SignUpPage extends Component {
       first_name,
       last_name,
       address,
-      city,
+      shipping_fees_id,
       contact_number
     } = this.state;
+    this.setState({ loading: true });
     createAccount({
       email,
       password,
@@ -45,11 +66,10 @@ class SignUpPage extends Component {
       first_name,
       last_name,
       address,
-      city,
+      shipping_fees_id,
       contact_number
     })
       .then(res => {
-        this.setState({ loading: true });
         if (res.data.success) {
           alert(`${res.data.msg}`);
           this.props.navigation.popToTop();
@@ -76,13 +96,16 @@ class SignUpPage extends Component {
       first_name,
       last_name,
       address,
+      province,
+      provinceId,
       city,
+      shipping_fees_id,
       contact_number,
       error
     } = this.state;
     return (
       <ScrollView>
-        <KeyboardShift style={{ flex: 1 }}>
+        <KeyboardShift>
           <View style={styles.container}>
             <Text style={styles.titleText}>Customer Information</Text>
             <Input
@@ -112,15 +135,92 @@ class SignUpPage extends Component {
               inputContainerStyle={styles.inputContainer}
               errorMessage={error.address}
             />
-            <Input
-              label="City:*"
-              value={city}
-              onChangeText={city => this.setState({ city })}
-              labelStyle={styles.inputLabel}
-              inputStyle={styles.inputText}
-              inputContainerStyle={styles.inputContainer}
-              errorMessage={error.city}
-            />
+            <View
+              style={{
+                width: "100%",
+                flexDirection: "column",
+                paddingHorizontal: 10
+              }}
+            >
+              <Text style={styles.inputLabel}>Province:*</Text>
+              <View
+                style={[
+                  styles.inputContainer,
+                  {
+                    flexDirection: "row",
+                    paddingHorizontal: 0,
+                    backgroundColor: "#eeeeee"
+                  }
+                ]}
+              >
+                <Picker
+                  style={[{ flex: 1, height: 30 }]}
+                  selectedValue={provinceId}
+                  mode={"dialog"}
+                  onValueChange={provinceId =>
+                    this.setState({ provinceId }, () => {
+                      getCity(provinceId)
+                        .then(res => {
+                          const data = res.data.data;
+                          this.setState({ city: data });
+                        })
+                        .catch(err => {
+                          this.setState({ loading: false });
+                          alert(catchError(err));
+                        });
+                    })
+                  }
+                  enabled={!this.state.loading}
+                >
+                  {Object.keys(province).map((key, index) => {
+                    const provinceLabel = province[key];
+                    return (
+                      <Picker.Item
+                        label={provinceLabel}
+                        value={key}
+                        key={index}
+                      />
+                    );
+                  })}
+                </Picker>
+              </View>
+            </View>
+            <View
+              style={{
+                width: "100%",
+                flexDirection: "column",
+                paddingHorizontal: 10
+              }}
+            >
+              <Text style={styles.inputLabel}>City:*</Text>
+              <View
+                style={[
+                  styles.inputContainer,
+                  {
+                    flexDirection: "row",
+                    paddingHorizontal: 0,
+                    backgroundColor: "#eeeeee"
+                  }
+                ]}
+              >
+                <Picker
+                  style={[{ flex: 1, height: 30 }]}
+                  selectedValue={shipping_fees_id}
+                  mode={"dialog"}
+                  onValueChange={shipping_fees_id =>
+                    this.setState({ shipping_fees_id })
+                  }
+                  enabled={!this.state.loading}
+                >
+                  {Object.keys(city).map((key, index) => {
+                    const cityName = city[key];
+                    return (
+                      <Picker.Item label={cityName} value={key} key={index} />
+                    );
+                  })}
+                </Picker>
+              </View>
+            </View>
             <Input
               label="Contact Number:*"
               value={contact_number}

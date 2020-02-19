@@ -35,7 +35,10 @@ export default class KeyboardShift extends Component {
     const { shift } = this.state;
     return (
       <Animated.View
-        style={[this.props.style, { transform: [{ translateY: shift }] }]}
+        style={[
+          this.props.style,
+          { flex: 1, transform: [{ translateY: shift }] }
+        ]}
       >
         {renderProp}
       </Animated.View>
