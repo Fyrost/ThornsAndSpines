@@ -37,7 +37,7 @@ class ResendPage extends Component {
           label="Email"
           containerStyle={{ paddingHorizontal: 20, paddingVertical: 10 }}
           inputContainerStyle={{ paddingHorizontal: 20 }}
-          disabled={this.state.loading}
+          editable={!this.state.loading}
         />
         <Button
           title={"Send"}
