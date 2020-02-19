@@ -5,6 +5,7 @@ const urlCity = provinceId => `api/shipping/province/${provinceId}/city`;
 const urlRegister = `api/register`;
 const urlVerify = `api/email/verify`;
 const urlResend = `api/email/resend`;
+const urlLoginAccount = `api/login`;
 
 export const catchError = err => {
   err.config && console.log(err.config);
@@ -83,6 +84,17 @@ export const resendCode = ({ email }) => {
     method: "post",
     data: {
       email
+    }
+  });
+};
+
+export const loginAccount = ({ email, password }) => {
+  return Axios({
+    url: urlLoginAccount,
+    method: "post",
+    data: {
+      email,
+      password
     }
   });
 };
