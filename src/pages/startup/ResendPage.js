@@ -30,11 +30,14 @@ class ResendPage extends Component {
   };
 
   render() {
+    const { email } = this.state;
     return (
       <View style={styles.container}>
         <Text>Resend Email</Text>
         <Input
           label="Email"
+          value={email}
+          onChangeText={email => this.setState({ email })}
           containerStyle={{ paddingHorizontal: 20, paddingVertical: 10 }}
           inputContainerStyle={{ paddingHorizontal: 20 }}
           editable={!this.state.loading}
