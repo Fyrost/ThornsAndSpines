@@ -1,5 +1,7 @@
 import Axios from "axios";
 
+const urlProvince = `api/shipping/province`;
+const urlCity = provinceId => `api/shipping/province/${provinceId}/city`;
 const urlRegister = `api/register`;
 const urlVerify = `api/email/verify`;
 const urlResend = `api/email/resend`;
@@ -25,6 +27,20 @@ export const catchError = err => {
   }
 };
 
+export const getProvince = () => {
+  return Axios({
+    url: urlProvince,
+    method: "get"
+  });
+};
+
+export const getCity = provinceId => {
+  return Axios({
+    url: urlCity(provinceId),
+    method: "get"
+  });
+};
+
 export const createAccount = ({
   email,
   password,
@@ -32,7 +48,7 @@ export const createAccount = ({
   first_name,
   last_name,
   address,
-  city,
+  shipping_fees_id,
   contact_number
 }) => {
   return Axios({
@@ -45,7 +61,7 @@ export const createAccount = ({
       first_name,
       last_name,
       address,
-      city,
+      shipping_fees_id,
       contact_number
     }
   });
