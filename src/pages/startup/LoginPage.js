@@ -23,10 +23,11 @@ class LoginPage extends Component {
       .then(res => {
         this.setState({ loading: false });
         if (res.data.success) {
-          // this.props.navigation.navigate("app");
+          Axios.defaults.params["api_token"] = res.data.api_token;
+          this.props.navigation.navigate("app");
         } else {
+          this.setState({ error: res.data.msg });
         }
-        this.setState({ error: res.data.msg });
       })
       .catch(err => {
         this.setState({
@@ -78,6 +79,8 @@ class LoginPage extends Component {
             <Text>Logo</Text>
             <Input
               placeholder="sample@email.com"
+              value={email}
+              onChangeText={email => this.setState({ email })}
               leftIcon={{
                 type: "font-awesome",
                 name: "envelope",
@@ -94,6 +97,8 @@ class LoginPage extends Component {
             />
             <Input
               placeholder="Password123!"
+              value={password}
+              onChangeText={password => this.setState({ password })}
               leftIcon={{
                 type: "font-awesome",
                 name: "envelope",
