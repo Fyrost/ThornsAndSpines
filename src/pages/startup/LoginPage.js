@@ -75,7 +75,7 @@ class LoginPage extends Component {
       >
         <KeyBoardShift>
           <View style={styles.container}>
-            {this.overlay()}
+            {/* {this.overlay()} */}
             <Text>Logo</Text>
             <Input
               placeholder="sample@email.com"
