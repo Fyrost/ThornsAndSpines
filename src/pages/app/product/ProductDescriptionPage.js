@@ -3,10 +3,14 @@ import { View, Text } from "react-native";
 import { Button } from "react-native-elements";
 
 class ProductDescriptionPage extends Component {
+  static navigationOptions = ({ navigation }) => ({
+    title: `${navigation.state.params.code}`,
+     
+    });
   render() {
     return (
       <View style={styles.container}>
-        <Text>Product Description</Text>
+        <Text>{this.props.navigation.state.params.code}</Text>
         <Button
           title={"Signup"}
           onPress={() => this.props.navigation.navigate("SignUp")}

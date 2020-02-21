@@ -12,9 +12,7 @@ export default createStackNavigator(
     },
     ProductDescription: {
       screen: ProductDescriptionPage,
-      navigationOptions: {
-        title: "Product Description"
-      }
+     
     }
   },
   {

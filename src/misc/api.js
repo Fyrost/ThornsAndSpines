@@ -6,6 +6,7 @@ const urlRegister = `api/register`;
 const urlVerify = `api/email/verify`;
 const urlResend = `api/email/resend`;
 const urlLoginAccount = `api/login`;
+const urlHome = `api/product`;
 
 export const catchError = err => {
   err.config && console.log(err.config);
@@ -96,5 +97,15 @@ export const loginAccount = ({ email, password }) => {
       email,
       password
     }
+  });
+};
+
+export const getHome = () => {
+  return Axios({
+    url: urlHome,
+    params: {
+      api_token: global.api_token
+    },
+    method: "get"
   });
 };

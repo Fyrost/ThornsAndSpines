@@ -7,8 +7,8 @@ import KeyBoardShift from "../../component/KeyboardShift";
 class LoginPage extends Component {
   state = {
     loading: false,
-    email: "",
-    password: "",
+    email: "fff@mail.com",
+    password: "Pass123!",
     secureEntry: true,
     eyeIcon: "eye",
     error: "",
@@ -23,7 +23,10 @@ class LoginPage extends Component {
       .then(res => {
         this.setState({ loading: false });
         if (res.data.success) {
-          Axios.defaults.params["api_token"] = res.data.api_token;
+          global.api_token = res.data.api_token
+          // Axios.defaults.params = {
+          //   api_token: res.data.api_token
+          // };
           this.props.navigation.navigate("app");
         } else {
           this.setState({ error: res.data.msg });
@@ -37,33 +40,33 @@ class LoginPage extends Component {
       });
   };
 
-  overlay = () => {
-    return (
-      <Overlay
-        isVisible={this.state.layout}
-        height={"auto"}
-        overlayContainerStyle={{ padding: 50 }}
-        borderRadius={0}
-        windowBackgroundColor={"rgba(0, 0, 0, .8)"}
-      >
-        <View>
-          <Input
-            label="Base URL:"
-            value={this.state.baseURL}
-            onChangeText={baseURL => this.setState({ baseURL })}
-          />
-          <Button
-            title={"enter"}
-            onPress={() => {
-              Axios.defaults.baseURL = `http://${this.state.baseURL}/thornsandspine/public/`;
-              Axios.defaults.headers.common["Accept"] = "application/json";
-              this.setState({ layout: false });
-            }}
-          />
-        </View>
-      </Overlay>
-    );
-  };
+  // overlay = () => {
+  //   return (
+  //     <Overlay
+  //       isVisible={this.state.layout}
+  //       height={"auto"}
+  //       overlayContainerStyle={{ padding: 50 }}
+  //       borderRadius={0}
+  //       windowBackgroundColor={"rgba(0, 0, 0, .8)"}
+  //     >
+  //       <View>
+  //         <Input
+  //           label="Base URL:"
+  //           value={this.state.baseURL}
+  //           onChangeText={baseURL => this.setState({ baseURL })}
+  //         />
+  //         <Button
+  //           title={"enter"}
+  //           onPress={() => {
+  //             Axios.defaults.baseURL = `http://${this.state.baseURL}/thornsandspine/public/`;
+  //             Axios.defaults.headers.common["Accept"] = "application/json";
+  //             this.setState({ layout: false });
+  //           }}
+  //         />
+  //       </View>
+  //     </Overlay>
+  //   );
+  // };
 
   render() {
     const { email, password } = this.state;
