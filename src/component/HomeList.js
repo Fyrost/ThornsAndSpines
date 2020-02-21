@@ -8,7 +8,8 @@ import {
   Dimensions
 } from "react-native";
 import { Button } from "react-native-elements";
-import { withNavigation } from "react-navigation"
+import { withNavigation } from "react-navigation";
+
 class HomeList extends Component {
   keyExtractor = (item, index) => index.toString();
 
@@ -17,9 +18,10 @@ class HomeList extends Component {
     return (
       <TouchableOpacity
         onPress={() => {
-          navigation.navigate("ProductDescription");
+          navigation.navigate("ProductDescription", { code: item.code });
         }}
       >
+        
         <View
           style={{
             width: width,
@@ -79,7 +81,7 @@ class HomeList extends Component {
             keyExtractor={keyExtractor}
             numColumns={4}
             data={data}
-            renderItem={({ item }) => renderItem(item,this.props.navigation)}
+            renderItem={({ item }) => renderItem(item, this.props.navigation)}
           />
         </View>
       </View>
