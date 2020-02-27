@@ -3,6 +3,7 @@ import LoginPage from "../pages/startup/LoginPage";
 import SignUpPage from "../pages/startup/SignUpPage";
 import ResendPage from "../pages/startup/ResendPage";
 import VerifyPage from "../pages/startup/VerifyPage";
+import BrowseImagePage from "../pages/startup/BrowseImagePage"
 export default createStackNavigator(
   {
     Login: {
@@ -27,6 +28,14 @@ export default createStackNavigator(
       screen: VerifyPage,
       navigationOptions: {
         title: "Verify"
+      }
+    },
+    BrowseImage: {
+      screen: BrowseImagePage,
+      navigationOptions: () => {
+        return {
+          title: 'Selected 0 files',
+        }
       }
     }
   },
