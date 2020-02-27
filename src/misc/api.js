@@ -7,6 +7,8 @@ const urlVerify = `api/email/verify`;
 const urlResend = `api/email/resend`;
 const urlLoginAccount = `api/login`;
 const urlHome = `api/product`;
+const urlProduct = code => `api/product/${code}`;
+const urlCart = `api/cart`;
 
 export const catchError = err => {
   err.config && console.log(err.config);
@@ -107,5 +109,42 @@ export const getHome = () => {
       api_token: global.api_token
     },
     method: "get"
+  });
+};
+
+export const getProduct = code => {
+  return Axios({
+    url: urlProduct(code),
+    params: {
+      api_token: global.api_token
+    }
+  });
+};
+
+export const addToCart = ({ product_id, pot_id }) => {
+  return Axios({
+    url: urlCart,
+    method: "post",
+    data: {
+      product_id,
+      pot_id,
+      quantity: "1"
+    },
+    params: {
+      api_token: global.api_token
+    }
+  });
+};
+
+export const test = ({ img }) => {
+  console.log(img);
+  let data = new FormData();
+  img.forEach(image_file => {
+    data.append("img[]", image_file);
+  });
+  return Axios({
+    url: "http://www.blacklistgraphics.com/api/test",
+    method: "post",
+    data
   });
 };

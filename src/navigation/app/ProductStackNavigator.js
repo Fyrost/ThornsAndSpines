@@ -12,7 +12,6 @@ export default createStackNavigator(
     },
     ProductDescription: {
       screen: ProductDescriptionPage,
-     
     }
   },
   {
