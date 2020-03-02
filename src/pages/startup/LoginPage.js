@@ -8,7 +8,7 @@ import { ImageBrowser } from "expo-image-picker-multiple";
 class LoginPage extends Component {
   state = {
     loading: false,
-    email: "fff@mail.com",
+    email: "rytesoro10@mail.com",
     password: "Pass123!",
     secureEntry: true,
     eyeIcon: "eye",
