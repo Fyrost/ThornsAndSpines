@@ -10,6 +10,7 @@ const urlHome = `api/product`;
 const urlProduct = code => `api/product/${code}`;
 const urlCart = `api/cart`;
 const urlUpdateCart = cartId => `${urlCart}/update/${cartId}`;
+const urlCreateOrder = `api/order/create`;
 
 export const catchError = err => {
   err.config && console.log(err.config);
@@ -153,6 +154,15 @@ export const updateCart = ({ cartId, quantity }) => {
     data: {
       quantity
     },
+    params: {
+      api_token: global.api_token
+    }
+  });
+};
+
+export const getRecipient = () => {
+  return Axios({
+    url: urlCreateOrder,
     params: {
       api_token: global.api_token
     }
