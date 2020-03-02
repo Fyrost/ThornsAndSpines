@@ -74,7 +74,7 @@ class ProductDescriptionPage extends Component {
           <Text style={{ fontSize: 10 }}>One Plant Only</Text>
           <Text
             style={{ color: "#2d6a27", fontWeight: "bold", fontSize: 17 }}
-          >{`PHP ${this.state.productDetails.price}.00`}</Text>
+          >{`₱ ${this.state.productDetails.price}.00`}</Text>
         </View>
         <View
           style={{
@@ -132,8 +132,7 @@ class ProductDescriptionPage extends Component {
         >
           <Button
             title={"Add to Cart"}
-            rounded
-            buttonStyle={{ backgroundColor: "#ac612e" }}
+            buttonStyle={{ backgroundColor: "#f5a210", borderRadius: 10 }}
             containerStyle={{ width: "80%" }}
             onPress={() => this.postCart()}
             raised
