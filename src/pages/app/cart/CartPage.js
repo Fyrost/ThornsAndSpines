@@ -74,7 +74,7 @@ class CartPage extends Component {
             title={"Checkout"}
             containerStyle={{ marginHorizontal: 10 }}
             buttonStyle={{ backgroundColor: "#f5a210", borderRadius: 10 }}
-            onPress={()=>this.props.navigation.navigate("ShippingInfo")}
+            onPress={()=>this.props.navigation.navigate("RecipientInfo")}
           />
         </View>
       </View>

@@ -1,7 +1,7 @@
 import { createStackNavigator } from "react-navigation";
 import CartPage from "../../pages/app/cart/CartPage";
 import PaymentInfoPage from "../../pages/app/cart/PaymentInfoPage";
-import ShippingInfoPage from "../../pages/app/cart/ShippingInfoPage";
+import RecipientInfoPage from "../../pages/app/cart/RecipientInfoPage";
 import OrderSuccessPage from "../../pages/app/cart/OrderSuccessPage";
 
 export default createStackNavigator(
@@ -18,10 +18,10 @@ export default createStackNavigator(
         title: "Payment Information"
       }
     },
-    ShippingInfo: {
-      screen: ShippingInfoPage,
+    RecipientInfo: {
+      screen: RecipientInfoPage,
       navigationOptions: {
-        title: "Shipping Information"
+        title: "Recipient"
       }
     },
     OrderSuccess: {
