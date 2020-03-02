@@ -56,7 +56,7 @@ class HomePage extends Component {
 
   render() {
     return (
-      <ScrollView style={styles.container}>
+      <ScrollView >
         <View style={{ justifyContent: "center" }}>
           <Image
             source={require("../../../../assets/header.jpg")}
