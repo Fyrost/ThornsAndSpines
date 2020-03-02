@@ -9,6 +9,7 @@ const urlLoginAccount = `api/login`;
 const urlHome = `api/product`;
 const urlProduct = code => `api/product/${code}`;
 const urlCart = `api/cart`;
+const urlUpdateCart = cartId => `${urlCart}/update/${cartId}`;
 
 export const catchError = err => {
   err.config && console.log(err.config);
@@ -129,6 +130,28 @@ export const addToCart = ({ product_id, pot_id }) => {
       product_id,
       pot_id,
       quantity: "1"
+    },
+    params: {
+      api_token: global.api_token
+    }
+  });
+};
+
+export const getCart = () => {
+  return Axios({
+    url: urlCart,
+    params: {
+      api_token: global.api_token
+    }
+  });
+};
+
+export const updateCart = ({ cartId, quantity }) => {
+  return Axios({
+    url: urlUpdateCart(cartId),
+    method: "post",
+    data: {
+      quantity
     },
     params: {
       api_token: global.api_token
