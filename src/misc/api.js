@@ -11,6 +11,7 @@ const urlProduct = code => `api/product/${code}`;
 const urlCart = `api/cart`;
 const urlUpdateCart = cartId => `${urlCart}/update/${cartId}`;
 const urlCreateOrder = `api/order/create`;
+const urlOrderSummary = `api/order/summary`;
 
 export const catchError = err => {
   err.config && console.log(err.config);
@@ -163,6 +164,27 @@ export const updateCart = ({ cartId, quantity }) => {
 export const getRecipient = () => {
   return Axios({
     url: urlCreateOrder,
+    params: {
+      api_token: global.api_token
+    }
+  });
+};
+
+export const getSummary = ({
+  city_province_id,
+  courier_id,
+  use_loyalty_points,
+  use_mine
+}) => {
+  return Axios({
+    url: urlOrderSummary,
+    method: "post",
+    data: {
+      city_province_id,
+      courier_id,
+      use_loyalty_points,
+      use_mine
+    },
     params: {
       api_token: global.api_token
     }
