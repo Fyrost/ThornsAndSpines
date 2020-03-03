@@ -2,14 +2,18 @@ import React, { Component } from "react";
 import { View, Text } from "react-native";
 import { Button } from "react-native-elements";
 
-class PaymentInfoPage extends Component {
+class OrderSummaryPage extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text>Payment Information</Text>
+        <Text>Order Summary</Text>
+        <Text>{this.props.navigation.state.params.city_province_id}</Text>
+        <Text>
+          {this.props.navigation.state.params.recipient_first}
+        </Text>
         <Button
-          title={"Shipping Info"}
-          onPress={() => this.props.navigation.navigate("ShippingInfo")}
+          title={"Finalize"}
+          onPress={() => this.props.navigation.navigate("OrderSuccess")}
         />
       </View>
     );
@@ -25,4 +29,4 @@ const styles = {
   }
 };
 
-export default PaymentInfoPage;
+export default OrderSummaryPage;
