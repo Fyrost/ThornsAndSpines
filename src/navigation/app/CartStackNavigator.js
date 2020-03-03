@@ -1,6 +1,6 @@
 import { createStackNavigator } from "react-navigation";
 import CartPage from "../../pages/app/cart/CartPage";
-import PaymentInfoPage from "../../pages/app/cart/PaymentInfoPage";
+import OrderSummaryPage from "../../pages/app/cart/OrderSummaryPage";
 import RecipientInfoPage from "../../pages/app/cart/RecipientInfoPage";
 import OrderSuccessPage from "../../pages/app/cart/OrderSuccessPage";
 
@@ -12,8 +12,8 @@ export default createStackNavigator(
         title: "Cart"
       }
     },
-    PaymentInfo: {
-      screen: PaymentInfoPage,
+    OrderSummary: {
+      screen: OrderSummaryPage,
       navigationOptions: {
         title: "Payment Information"
       }
