@@ -62,12 +62,37 @@ class ShippingInfoPage extends Component {
       recipient_email,
       recipient_contact_number,
       remarks,
-      delivery_date
+      delivery_date,
+      city_province_id,
+      courier_id,
+      use_loyalty_point
     } = this.state;
     const paymentButtons = ["Bank Transfer", "GCash"];
     const agentButtons = this.state.shipping.map(obj => {
       return Object.values(obj).toString();
     });
+
+    let passParam = this.state.recipientSwitch
+      ? {
+          city_province_id,
+          courier_id,
+          use_loyalty_point,
+          use_mine: this.state.recipientSwitch
+        }
+      : {
+          recipient_first,
+          recipient_last,
+          recipient_address,
+          recipient_email,
+          recipient_contact_number,
+          remarks,
+          delivery_date,
+          city_province_id,
+          courier_id,
+          use_loyalty_point,
+          use_mine: this.state.recipientSwitch
+        };
+
     return (
       <View style={styles.container}>
         <View
@@ -396,18 +421,8 @@ class ShippingInfoPage extends Component {
           title={"Order Success"}
           buttonStyle={{ backgroundColor: "#f5a210", borderRadius: 10 }}
           containerStyle={{ width: "80%", bottom: 10, position: "absolute" }}
-          // onPress={() => this.props.navigation.navigate("OrderSuccess")}
           onPress={() =>
-            console.log(
-              // recipient_first,
-              // recipient_last,
-              // recipient_address,
-              // recipient_email,
-              // recipient_contact_number,
-              // remarks,
-              // delivery_date
-              this.state.payment_method
-            )
+            this.props.navigation.navigate("OrderSummary", passParam)
           }
           raised
         />
