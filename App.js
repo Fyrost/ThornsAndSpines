@@ -1,7 +1,9 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { YellowBox } from "react-native";
 import MainNavigator from "./src/navigation/MainNavigator";
 import Axios from "axios";
+
+YellowBox.ignoreWarnings(["componentWillReceiveProps", "VirtualizedLists"]);
 
 export default class App extends Component {
   render() {
