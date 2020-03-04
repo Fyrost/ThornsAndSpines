@@ -38,7 +38,7 @@ class ProductDescriptionPage extends Component {
     const { id } = this.state.productDetails;
     this.setState({ loading: true });
     addToCart({
-      product_id:id,
+      product_id: id,
       pot_id: pot
     })
       .then(res => {
@@ -48,9 +48,9 @@ class ProductDescriptionPage extends Component {
       })
       .catch(err => {
         this.setState({
-          loading: false,
-          error: catchError(err)
+          loading: false
         });
+        alert(catchError(err));
       });
   };
 
