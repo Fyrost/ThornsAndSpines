@@ -144,7 +144,6 @@ class OrderSummaryPage extends Component {
         let message = "";
         message = res.data.msg;
         if (res.data.success) {
-          console.log(message);
           alert(message.replace(/\\n/g, "\n"));
           this.props.navigation.popToTop();
         } else {
