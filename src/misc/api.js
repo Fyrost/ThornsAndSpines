@@ -12,6 +12,7 @@ const urlCart = `api/cart`;
 const urlUpdateCart = cartId => `${urlCart}/update/${cartId}`;
 const urlCreateOrder = `api/order/create`;
 const urlOrderSummary = `api/order/summary`;
+const urlOrder = `api/order`;
 
 export const catchError = err => {
   err.config && console.log(err.config);
@@ -174,7 +175,8 @@ export const getSummary = ({
   city_province_id,
   courier_id,
   use_loyalty_points,
-  use_mine
+  use_mine,
+  delivery_date
 }) => {
   return Axios({
     url: urlOrderSummary,
@@ -183,7 +185,43 @@ export const getSummary = ({
       city_province_id,
       courier_id,
       use_loyalty_points,
+      delivery_date,
       use_mine
+    },
+    params: {
+      api_token: global.api_token
+    }
+  });
+};
+
+export const finalizeOrder = ({
+  remark,
+  city_province_id,
+  payment_method,
+  recipient_first,
+  recipient_last,
+  recipient_address,
+  recipient_email,
+  recipient_contact_number,
+  delivery_date,
+  courier_id,
+  use_loyalty_points
+}) => {
+  return Axios({
+    url: urlOrder,
+    method: "post",
+    data: {
+      remark,
+      city_province_id,
+      payment_method,
+      recipient_first,
+      recipient_last,
+      recipient_address,
+      recipient_email,
+      recipient_contact_number,
+      delivery_date,
+      courier_id,
+      use_loyalty_points
     },
     params: {
       api_token: global.api_token
