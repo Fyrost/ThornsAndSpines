@@ -15,7 +15,7 @@ export default createStackNavigator(
     OrderSummary: {
       screen: OrderSummaryPage,
       navigationOptions: {
-        title: "Payment Information"
+        title: "Order Summary"
       }
     },
     RecipientInfo: {

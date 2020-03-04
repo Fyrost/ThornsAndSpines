@@ -23,7 +23,7 @@ class ShippingInfoPage extends Component {
     recipient_contact_number: "",
     delivery_date: formattedDate,
     courier_id: "",
-    use_loyalty_point: false,
+    use_loyalty_points: false,
     loyaltyPoints: "0",
     province: {},
     city: {},
@@ -65,7 +65,9 @@ class ShippingInfoPage extends Component {
       delivery_date,
       city_province_id,
       courier_id,
-      use_loyalty_point
+      use_loyalty_points,
+      loyaltyPoints,
+      payment_method
     } = this.state;
     const paymentButtons = ["Bank Transfer", "GCash"];
     const agentButtons = this.state.shipping.map(obj => {
@@ -76,8 +78,12 @@ class ShippingInfoPage extends Component {
       ? {
           city_province_id,
           courier_id,
-          use_loyalty_point,
-          use_mine: this.state.recipientSwitch
+          use_loyalty_points,
+          use_mine: this.state.recipientSwitch,
+          delivery_date,
+          payment_method,
+          agent: agentButtons[this.state.agentIndex],
+          remarks
         }
       : {
           recipient_first,
@@ -89,8 +95,13 @@ class ShippingInfoPage extends Component {
           delivery_date,
           city_province_id,
           courier_id,
-          use_loyalty_point,
-          use_mine: this.state.recipientSwitch
+          payment_method,
+          agent: agentButtons[this.state.agentIndex],
+          use_loyalty_points,
+          loyalty_points: loyaltyPoints,
+          use_mine: this.state.recipientSwitch,
+          province: this.state.province[this.state.provinceId],
+          city: this.state.city[this.state.city_province_id]
         };
 
     return (
@@ -364,7 +375,12 @@ class ShippingInfoPage extends Component {
               </View>
               <View style={{ flexDirection: "row", alignItems: "center" }}>
                 <Text>Use</Text>
-                <Switch />
+                <Switch
+                  value={this.state.use_loyalty_points}
+                  onValueChange={use_loyalty_points =>
+                    this.setState({ use_loyalty_points })
+                  }
+                />
               </View>
             </View>
           </View>
@@ -418,7 +434,7 @@ class ShippingInfoPage extends Component {
           </View>
         </View>
         <Button
-          title={"Order Success"}
+          title={"Continue"}
           buttonStyle={{ backgroundColor: "#f5a210", borderRadius: 10 }}
           containerStyle={{ width: "80%", bottom: 10, position: "absolute" }}
           onPress={() =>
