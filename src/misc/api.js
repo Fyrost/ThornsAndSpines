@@ -229,6 +229,14 @@ export const finalizeOrder = ({
   });
 };
 
+export const getOrders = () => {
+  return Axios({
+    url: urlOrder,
+    params: {
+      api_token: global.api_token
+    }
+  });
+};
 export const test = ({ img }) => {
   console.log(img);
   let data = new FormData();
