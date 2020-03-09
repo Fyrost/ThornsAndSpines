@@ -38,19 +38,7 @@ class CartPage extends Component {
       <View style={styles.container}>
         <NavigationEvents
           onWillFocus={() => {
-            this.setState({ loading: true });
-            getCart()
-              .then(res => {
-                this.setState({
-                  products: res.data.data.products,
-                  total: res.data.data.total,
-                  loading: false
-                });
-              })
-              .catch(err => {
-                this.setState({ loading: false });
-                alert(catchError(err));
-              });
+            this.getCart();
           }}
         />
         <View style={{ flex: 6 }}>
@@ -71,10 +59,13 @@ class CartPage extends Component {
             <Text>₱ {this.state.total}.00</Text>
           </View>
           <Button
-            title={"Checkout"}
+            title={
+              this.state.products.length != 0 ? "Checkout" : "Cart is Empty"
+            }
             containerStyle={{ marginHorizontal: 10 }}
             buttonStyle={{ backgroundColor: "#f5a210", borderRadius: 10 }}
-            onPress={()=>this.props.navigation.navigate("RecipientInfo")}
+            onPress={() => this.props.navigation.navigate("RecipientInfo")}
+            disabled={this.state.products.length == 0}
           />
         </View>
       </View>
