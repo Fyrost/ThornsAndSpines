@@ -3,6 +3,7 @@ import { createBottomTabNavigator } from "react-navigation";
 import { Icon } from "react-native-elements";
 import ProductNavigator from "./app/ProductStackNavigator";
 import CartNavigator from "./app/CartStackNavigator";
+import OrderNavigator from "./app/OrdersStackNavigator";
 import AccountNavigator from "./app/AccountStackNavigator";
 
 export default createBottomTabNavigator(
@@ -22,6 +23,15 @@ export default createBottomTabNavigator(
         tabBarLabel: "Cart",
         tabBarIcon: ({ tintColor }) => (
           <Icon type="font-awesome" name={"shopping-cart"} color={tintColor} />
+        )
+      }
+    },
+    order:{
+      screen: OrderNavigator,
+      navigationOptions: {
+        tabBarLabel: "Orders",
+        tabBarIcon: ({ tintColor }) => (
+          <Icon type="font-awesome" name={"list-ol"} color={tintColor} />
         )
       }
     },
