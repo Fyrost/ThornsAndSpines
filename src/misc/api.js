@@ -71,7 +71,7 @@ export const createAccount = ({
       first_name,
       last_name,
       address,
-      shipping_fees_id,
+      city_province_id,
       contact_number
     }
   });
