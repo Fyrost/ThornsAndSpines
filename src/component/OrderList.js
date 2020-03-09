@@ -13,6 +13,7 @@ class OrderList extends Component {
         subtitle={created_at}
         bottomDivider
         chevron
+        onPress={() => navigation.navigate("OrderDetail", { code })}
       />
     );
   }
