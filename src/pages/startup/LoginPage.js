@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { View, Text, ImageBackground, Image, ScrollView } from "react-native";
-import { Button, Input, Icon, Overlay } from "react-native-elements";
-import Axios from "axios";
+import { Button, Input, Icon } from "react-native-elements";
 import { loginAccount, test, catchError } from "../../misc/api";
 import KeyBoardShift from "../../component/KeyboardShift";
 import { ImageBrowser } from "expo-image-picker-multiple";
@@ -14,29 +13,8 @@ class LoginPage extends Component {
     eyeIcon: "eye",
     error: "",
     layout: true,
-    baseURL: "192.168.1.4",
-    imageBrowserOpen: false,
-    photos: []
+    baseURL: "192.168.1.4"
   };
-
-  componentDidUpdate() {
-    const { params } = this.props.navigation.state;
-    if (params) {
-      const { photos } = params;
-      if (photos) this.setState({ photos });
-      delete params.photos;
-    }
-  }
-
-  renderImage(item, i) {
-    return (
-      <Image
-        style={{ height: 100, width: 100 }}
-        source={{ uri: item.uri }}
-        key={i}
-      />
-    );
-  }
 
   postLoginAccount = () => {
     const { email, password } = this.state;
@@ -60,18 +38,6 @@ class LoginPage extends Component {
           error: catchError(err)
         });
       });
-  };
-
-  imageBrowserCallback = callback => {
-    callback
-      .then(photos => {
-        console.log(photos);
-        this.setState({
-          imageBrowserOpen: false,
-          photos
-        });
-      })
-      .catch(e => console.log(e));
   };
 
   // overlay = () => {
@@ -105,8 +71,6 @@ class LoginPage extends Component {
   render() {
     const { navigate } = this.props.navigation;
     const { email, password } = this.state;
-    if (this.state.imageBrowserOpen)
-      return <ImageBrowser max={4} callback={this.imageBrowserCallback} />;
     return (
       <ImageBackground
         source={require("../../../assets/loginBG.jpg")}
@@ -116,33 +80,6 @@ class LoginPage extends Component {
         <KeyBoardShift>
           <View style={styles.container}>
             {/* {this.overlay()} */}
-            <Button
-              title="Choose Images"
-              onPress={() => {
-                navigate("BrowseImage");
-              }}
-            />
-            <Button
-              title="Upload"
-              onPress={() => {
-                const { params } = this.props.navigation.state;
-                if (params) {
-                  const { photos } = params;
-                  if (photos) this.setState({ photos });
-                  delete params.photos;
-                }
-                test({ img: this.state.photos })
-                  .then(res => {
-                    console.log(res.data.success);
-                  })
-                  .catch(err => {
-                    console.log(catchError(err));
-                  });
-              }}
-            />
-            <ScrollView>
-              {this.state.photos.map((item, i) => this.renderImage(item, i))}
-            </ScrollView>
             <Text>Logo</Text>
             <Input
               placeholder="sample@email.com"
