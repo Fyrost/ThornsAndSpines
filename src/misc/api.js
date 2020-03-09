@@ -13,6 +13,8 @@ const urlUpdateCart = cartId => `${urlCart}/update/${cartId}`;
 const urlCreateOrder = `api/order/create`;
 const urlOrderSummary = `api/order/summary`;
 const urlOrder = `api/order`;
+const urlShowOrder = code => `api/order/show/${code}`;
+const urlUploadReceipt = code => `api/order/update/${code}`;
 
 export const catchError = err => {
   err.config && console.log(err.config);
@@ -69,7 +71,7 @@ export const createAccount = ({
       first_name,
       last_name,
       address,
-      shipping_fees_id,
+      city_province_id,
       contact_number
     }
   });
@@ -229,15 +231,36 @@ export const finalizeOrder = ({
   });
 };
 
-export const test = ({ img }) => {
-  console.log(img);
+export const getOrders = () => {
+  return Axios({
+    url: urlOrder,
+    params: {
+      api_token: global.api_token,
+      status: "all"
+    }
+  });
+};
+
+export const showOrder = code => {
+  return Axios({
+    url: urlShowOrder(code),
+    params: {
+      api_token: global.api_token
+    }
+  });
+};
+
+export const uploadReceipt = ({ img, code }) => {
   let data = new FormData();
   img.forEach(image_file => {
     data.append("img[]", image_file);
   });
   return Axios({
-    url: "http://www.blacklistgraphics.com/api/test",
+    url: urlUploadReceipt(code),
     method: "post",
-    data
+    data,
+    params: {
+      api_token: global.api_token
+    }
   });
 };

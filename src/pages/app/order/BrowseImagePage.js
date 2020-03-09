@@ -8,20 +8,17 @@ import {
 } from "react-native";
 import * as ImageManipulator from "expo-image-manipulator";
 import { ImageBrowser } from "expo-image-picker-multiple";
+import { uploadReceipt, catchError } from "../../../misc/api";
 
 export default class BrowseImagePage extends Component {
   static navigationOptions = ({ navigation }) => {
     const headerTitle = navigation.getParam("headerTitle");
     const right = navigation.getParam("headerRight");
     const loading = navigation.getParam("loading");
-    const headerLeft = (
-      <TouchableOpacity onPress={() => navigation.goBack()}>
-        <Text>Back</Text>
-      </TouchableOpacity>
-    );
+
     const headerRight = (
       <TouchableOpacity title={"Done"} onPress={right}>
-        <Text>Done</Text>
+        <Text style={{ paddingRight: 10, color: "white" }}>Done</Text>
       </TouchableOpacity>
     );
     const headerLoader = (
@@ -30,8 +27,8 @@ export default class BrowseImagePage extends Component {
       </View>
     );
 
-    if (loading) return { headerTitle, headerLeft, headerRight: headerLoader };
-    return { headerTitle, headerLeft, headerRight };
+    if (loading) return { headerTitle, headerRight: headerLoader };
+    return { headerTitle, headerRight };
   };
 
   imagesCallback = callback => {
@@ -49,11 +46,21 @@ export default class BrowseImagePage extends Component {
             type: "image/jpg"
           });
         }
+        uploadReceipt({
+          img: cPhotos,
+          code: navigation.getParam("code")
+        })
+          .then(res => {
+            if (res.data.success) navigation.pop();
+            else alert(res.data.msg);
+          })
+          .catch(err => {
+            alert(catchError(err));
+          })
+          .finally(() => navigation.setParams({ loading: false }));
         console.log(cPhotos);
-        navigation.navigate("Login", { photos: cPhotos });
       })
-      .catch(e => console.log(e))
-      .finally(() => navigation.setParams({ loading: false }));
+      .catch(e => console.log(e));
   };
 
   async _processImageAsync(uri) {

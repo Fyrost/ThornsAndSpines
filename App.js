@@ -3,7 +3,7 @@ import { YellowBox } from "react-native";
 import MainNavigator from "./src/navigation/MainNavigator";
 import Axios from "axios";
 
-YellowBox.ignoreWarnings(["componentWillReceiveProps", "VirtualizedLists"]);
+YellowBox.ignoreWarnings(["componentWillReceiveProps", "VirtualizedLists","PadView"]);
 
 export default class App extends Component {
   render() {

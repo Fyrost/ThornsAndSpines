@@ -21,7 +21,7 @@ class SignUpPage extends Component {
     province: {},
     provinceId: "",
     city: {},
-    shipping_fees_id: "",
+    city_province_id: "",
     contact_number: "9548757",
     error: {
       email: "",
@@ -55,7 +55,7 @@ class SignUpPage extends Component {
       first_name,
       last_name,
       address,
-      shipping_fees_id,
+      city_province_id,
       contact_number
     } = this.state;
     this.setState({ loading: true });
@@ -66,7 +66,7 @@ class SignUpPage extends Component {
       first_name,
       last_name,
       address,
-      shipping_fees_id,
+      city_province_id,
       contact_number
     })
       .then(res => {
@@ -99,7 +99,7 @@ class SignUpPage extends Component {
       province,
       provinceId,
       city,
-      shipping_fees_id,
+      city_province_id,
       contact_number,
       error
     } = this.state;
@@ -205,10 +205,10 @@ class SignUpPage extends Component {
               >
                 <Picker
                   style={[{ flex: 1, height: 30 }]}
-                  selectedValue={shipping_fees_id}
+                  selectedValue={city_province_id}
                   mode={"dialog"}
-                  onValueChange={shipping_fees_id =>
-                    this.setState({ shipping_fees_id })
+                  onValueChange={city_province_id =>
+                    this.setState({ city_province_id })
                   }
                   enabled={!this.state.loading}
                 >
