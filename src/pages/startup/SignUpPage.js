@@ -12,17 +12,17 @@ import {
 class SignUpPage extends Component {
   state = {
     loading: false,
-    email: "@gmail.com",
-    password: "Pass123!",
-    password1: "Pass123!",
-    first_name: "Francis",
-    last_name: "Antonio",
-    address: "asdfga",
+    email: "",
+    password: "",
+    password1: "",
+    first_name: "",
+    last_name: "",
+    address: "",
     province: {},
     provinceId: "",
     city: {},
     city_province_id: "",
-    contact_number: "9548757",
+    contact_number: "",
     error: {
       email: "",
       password: "",
@@ -115,6 +115,7 @@ class SignUpPage extends Component {
               labelStyle={styles.inputLabel}
               inputStyle={styles.inputText}
               inputContainerStyle={styles.inputContainer}
+              autoCapitalize={"words"}
               errorMessage={error.first_name}
             />
             <Input
@@ -124,6 +125,7 @@ class SignUpPage extends Component {
               labelStyle={styles.inputLabel}
               inputStyle={styles.inputText}
               inputContainerStyle={styles.inputContainer}
+              autoCapitalize={"words"}
               errorMessage={error.last_name}
             />
             <Input
@@ -133,6 +135,7 @@ class SignUpPage extends Component {
               labelStyle={styles.inputLabel}
               inputStyle={styles.inputText}
               inputContainerStyle={styles.inputContainer}
+              autoCapitalize={"words"}
               errorMessage={error.address}
             />
             <View
@@ -228,6 +231,7 @@ class SignUpPage extends Component {
               labelStyle={styles.inputLabel}
               inputStyle={styles.inputText}
               inputContainerStyle={styles.inputContainer}
+              keyboardType={"number-pad"}
               errorMessage={error.contact_number}
             />
             <Input
@@ -237,6 +241,8 @@ class SignUpPage extends Component {
               labelStyle={styles.inputLabel}
               inputStyle={styles.inputText}
               inputContainerStyle={styles.inputContainer}
+              keyboardType={"email-address"}
+              autoCapitalize={"none"}
               errorMessage={error.email}
             />
             <Input
@@ -246,6 +252,8 @@ class SignUpPage extends Component {
               labelStyle={styles.inputLabel}
               inputStyle={styles.inputText}
               inputContainerStyle={styles.inputContainer}
+              secureTextEntry
+              autoCapitalize={"none"}
               errorMessage={error.password}
             />
             <Input
@@ -255,6 +263,8 @@ class SignUpPage extends Component {
               labelStyle={styles.inputLabel}
               inputStyle={styles.inputText}
               inputContainerStyle={styles.inputContainer}
+              secureTextEntry
+              autoCapitalize={"none"}
               errorMessage={error.password1}
             />
             <Button
