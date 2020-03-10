@@ -51,9 +51,11 @@ class ResendPage extends Component {
             loading={this.state.loading}
           />
           <Button
-            title={"Already have\nverification Code"}
+            containerStyle={{ position: "absolute", bottom: 10, width: "80%" }}
+            title={"Already have verification Code"}
             onPress={() => this.props.navigation.navigate("Verify")}
             disabled={this.state.loading}
+            raised
           />
         </View>
       </KeyboardShift>
