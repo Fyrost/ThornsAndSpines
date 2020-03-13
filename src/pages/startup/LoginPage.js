@@ -61,6 +61,8 @@ class LoginPage extends Component {
               containerStyle={styles.inputContainer}
               leftIconContainerStyle={styles.inputLeftIcon}
               placeholderTextColor="gray"
+              keyboardType={"email-address"}
+              autoCapitalize={"none"}
               editable={!this.state.loading}
             />
             <Input
