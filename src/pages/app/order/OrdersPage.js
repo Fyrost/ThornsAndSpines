@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View } from "react-native";
+import { View, ActivityIndicator } from "react-native";
 import OrderList from "../../../component/OrderList";
 import { getOrders, catchError } from "../../../misc/api";
 import { NavigationEvents } from "react-navigation";
@@ -16,14 +16,23 @@ class OrdersPage extends Component {
     this.setState({ loading: true });
     getOrders()
       .then(res => {
-        this.setState({ loading: false, orders: res.data.data });
+        this.setState({ orders: res.data.data });
       })
       .catch(err => {
-        this.setState({ loading: false });
         alert(catchError(err));
+      })
+      .finally(() => {
+        this.setState({ loading: false });
       });
   }
   render() {
+    if (this.state.loading)
+      return (
+        <ActivityIndicator
+          size={"large"}
+          style={{ justifyContent: "center", marginTop: 20 }}
+        />
+      );
     return (
       <View>
         <NavigationEvents onWillFocus={() => this.getOrders()} />

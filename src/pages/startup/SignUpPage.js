@@ -1,5 +1,11 @@
 import React, { Component } from "react";
-import { View, Text, ScrollView, Picker } from "react-native";
+import {
+  View,
+  Text,
+  ScrollView,
+  Picker,
+  ActivityIndicator
+} from "react-native";
 import { Button, Input } from "react-native-elements";
 import KeyboardShift from "../../component/KeyboardShift";
 import {
@@ -19,7 +25,7 @@ class SignUpPage extends Component {
     last_name: "",
     address: "",
     province: {},
-    provinceId: "",
+    province_id: "",
     city: {},
     city_province_id: "",
     contact_number: "",
@@ -36,16 +42,40 @@ class SignUpPage extends Component {
   };
 
   UNSAFE_componentWillMount() {
+    this.setState({ loading: true });
     getProvince()
       .then(res => {
         const data = res.data.data;
-        this.setState({ province: data });
+        this.setState(
+          { province: data, province_id: Object.keys(data).toString() },
+          this.getCityPicker
+        );
       })
       .catch(err => {
-        this.setState({ loading: false });
         alert(catchError(err));
+      })
+      .finally(() => {
+        this.setState({ loading: false });
       });
   }
+
+  getCityPicker = () => {
+    this.setState({ cityLoading: true });
+    getCity(this.state.province_id)
+      .then(res => {
+        const data = res.data.data;
+        this.setState({
+          city: data,
+          city_province_id: Object.keys(data).toString()
+        });
+      })
+      .catch(err => {
+        alert(catchError(err));
+      })
+      .finally(() => {
+        this.setState({ cityLoading: false });
+      });
+  };
 
   postRegister = () => {
     const {
@@ -58,7 +88,7 @@ class SignUpPage extends Component {
       city_province_id,
       contact_number
     } = this.state;
-    this.setState({ loading: true });
+    this.setState({ btnLoading: true });
     createAccount({
       email,
       password,
@@ -74,17 +104,17 @@ class SignUpPage extends Component {
           alert(`${res.data.msg}`);
           this.props.navigation.popToTop();
           this.props.navigation.navigate("Verify");
-          this.setState({ loading: false });
         } else {
           this.setState({
-            error: res.data.errors,
-            loading: false
+            error: res.data.errors
           });
         }
       })
       .catch(err => {
-        this.setState({ loading: false });
         alert(catchError(err));
+      })
+      .finally(() => {
+        this.setState({ btnLoading: false });
       });
   };
 
@@ -97,12 +127,22 @@ class SignUpPage extends Component {
       last_name,
       address,
       province,
-      provinceId,
+      province_id,
       city,
       city_province_id,
       contact_number,
-      error
+      error,
+      loading,
+      cityLoading,
+      btnLoading
     } = this.state;
+    if (loading)
+      return (
+        <ActivityIndicator
+          size={"large"}
+          style={{ justifyContent: "center", marginTop: 20 }}
+        />
+      );
     return (
       <ScrollView>
         <KeyboardShift>
@@ -158,20 +198,10 @@ class SignUpPage extends Component {
               >
                 <Picker
                   style={[{ flex: 1, height: 30 }]}
-                  selectedValue={provinceId}
+                  selectedValue={province_id}
                   mode={"dialog"}
-                  onValueChange={provinceId =>
-                    this.setState({ provinceId }, () => {
-                      getCity(provinceId)
-                        .then(res => {
-                          const data = res.data.data;
-                          this.setState({ city: data });
-                        })
-                        .catch(err => {
-                          this.setState({ loading: false });
-                          alert(catchError(err));
-                        });
-                    })
+                  onValueChange={province_id =>
+                    this.setState({ province_id }, this.getCityPicker)
                   }
                   enabled={!this.state.loading}
                 >
@@ -206,22 +236,26 @@ class SignUpPage extends Component {
                   }
                 ]}
               >
-                <Picker
-                  style={[{ flex: 1, height: 30 }]}
-                  selectedValue={city_province_id}
-                  mode={"dialog"}
-                  onValueChange={city_province_id =>
-                    this.setState({ city_province_id })
-                  }
-                  enabled={!this.state.loading}
-                >
-                  {Object.keys(city).map((key, index) => {
-                    const cityName = city[key];
-                    return (
-                      <Picker.Item label={cityName} value={key} key={index} />
-                    );
-                  })}
-                </Picker>
+                {cityLoading ? (
+                  <ActivityIndicator style={{ flex: 1, alignSelf: "center" }} />
+                ) : (
+                  <Picker
+                    style={[{ flex: 1, height: 30 }]}
+                    selectedValue={city_province_id}
+                    mode={"dialog"}
+                    onValueChange={city_province_id =>
+                      this.setState({ city_province_id })
+                    }
+                    enabled={!this.state.loading}
+                  >
+                    {Object.keys(city).map((key, index) => {
+                      const cityName = city[key];
+                      return (
+                        <Picker.Item label={cityName} value={key} key={index} />
+                      );
+                    })}
+                  </Picker>
+                )}
               </View>
             </View>
             <Input
@@ -272,33 +306,8 @@ class SignUpPage extends Component {
               onPress={() => {
                 this.postRegister();
               }}
-              loading={this.state.loading}
+              loading={btnLoading}
             />
-
-            {/* <Text style={styles.titleText}>Shipping Information</Text>
-            <Input
-              label="Shipping Address:*"
-              labelStyle={styles.inputLabel}
-              inputStyle={styles.inputText}
-              inputContainerStyle={styles.inputContainer}
-            />
-            <Input
-              label="City:*"
-              labelStyle={styles.inputLabel}
-              inputStyle={styles.inputText}
-              inputContainerStyle={styles.inputContainer}
-            />
-            <Input
-              label="Region:*"
-              labelStyle={styles.inputLabel}
-              inputStyle={styles.inputText}
-              inputContainerStyle={styles.inputContainer}
-            /> */}
-
-            {/* <Button
-          title={"Login"}
-          onPress={() => this.props.navigation.navigate("Login")}
-        /> */}
           </View>
         </KeyboardShift>
       </ScrollView>

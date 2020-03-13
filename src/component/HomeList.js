@@ -21,7 +21,6 @@ class HomeList extends Component {
           navigation.navigate("ProductDescription", { code: item.code });
         }}
       >
-        
         <View
           style={{
             width: width,
@@ -52,6 +51,7 @@ class HomeList extends Component {
       listEmptyComponent,
       listFooterComponent,
       onPress,
+      seeAll,
       ...props
     } = this.props;
     const { keyExtractor, renderItem } = this;
@@ -71,7 +71,9 @@ class HomeList extends Component {
             title={"SEE ALL"}
             buttonStyle={{ height: 20, backgroundColor: "#2d6a27" }}
             titleStyle={{ fontSize: 8 }}
-            onPress={() => this.props.navigation.navigate("SignUp")}
+            onPress={() =>
+              this.props.navigation.navigate("ProductBrowse", { seeAll })
+            }
           />
         </View>
 

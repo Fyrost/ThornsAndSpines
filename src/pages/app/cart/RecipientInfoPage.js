@@ -147,6 +147,7 @@ class ShippingInfoPage extends Component {
                   backgroundColor: "#f9f9f9",
                   paddingVertical: 5
                 }}
+                autoCapitalize={"words"}
               />
               <TextInput
                 placeholder={"Last Name"}
@@ -165,6 +166,7 @@ class ShippingInfoPage extends Component {
                   backgroundColor: "#f9f9f9",
                   paddingVertical: 5
                 }}
+                autoCapitalize={"words"}
               />
             </View>
             <View style={{ flexDirection: "row" }}>
@@ -184,6 +186,8 @@ class ShippingInfoPage extends Component {
                   backgroundColor: "#f9f9f9",
                   paddingVertical: 5
                 }}
+                keyboardType={"email-address"}
+                autoCapitalize={"none"}
               />
               <TextInput
                 placeholder={"Contact Number"}
@@ -201,6 +205,7 @@ class ShippingInfoPage extends Component {
                   backgroundColor: "#f9f9f9",
                   paddingVertical: 5
                 }}
+                keyboardType={"number-pad"}
               />
             </View>
             <TextInput
@@ -221,6 +226,7 @@ class ShippingInfoPage extends Component {
                 textAlignVertical: "top",
                 textAlign: "justify"
               }}
+              autoCapitalize={"words"}
               numberOfLines={2}
               multiline
             />

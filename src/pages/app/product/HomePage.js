@@ -1,14 +1,6 @@
 import React, { Component } from "react";
-import {
-  View,
-  Text,
-  Image,
-  ScrollView,
-  FlatList,
-  TouchableOpacity,
-  Dimensions
-} from "react-native";
-import { Button, Divider } from "react-native-elements";
+import { View, Image, ScrollView, ActivityIndicator } from "react-native";
+import { Button } from "react-native-elements";
 import { getHome, catchError } from "../../../misc/api";
 import HomeList from "../../../component/HomeList";
 
@@ -18,72 +10,72 @@ class HomePage extends Component {
   };
 
   UNSAFE_componentWillMount() {
+    this.setState({ loading: true });
     getHome()
       .then(res => {
         this.setState({ data: res.data.data });
       })
       .catch(err => {
-        this.setState({ loading: false });
         alert(catchError(err));
+      })
+      .finally(() => {
+        this.setState({ loading: false });
       });
   }
 
-  // renderItem(item) {
-  //   const width = Dimensions.get("screen").width / 4;
-  //   return (
-  //     <TouchableOpacity>
-  //       <View
-  //         style={{
-  //           width: width,
-  //           height: width,
-  //           justifyContent: "center"
-  //         }}
-  //       >
-  //         <Image
-  //           style={{
-  //             width: "90%",
-  //             height: "90%",
-  //             alignSelf: "center",
-  //             borderRadius: 5
-  //           }}
-  //           resizeMode="contain"
-  //           source={{ uri: item.img }}
-  //         />
-  //       </View>
-  //     </TouchableOpacity>
-  //   );
-  // }
-
   render() {
+    if (this.state.loading)
+      return (
+        <ActivityIndicator
+          size={"large"}
+          style={{ justifyContent: "center", marginTop: 20 }}
+        />
+      );
     return (
-      <ScrollView >
-        <View style={{ justifyContent: "center" }}>
-          <Image
-            source={require("../../../../assets/header.jpg")}
-            style={{
-              resizeMode: "cover"
-            }}
-            height={200}
+      <View>
+        <ScrollView>
+          <View style={{ justifyContent: "center" }}>
+            <Image
+              source={require("../../../../assets/header.jpg")}
+              style={{
+                resizeMode: "cover"
+              }}
+              height={200}
+            />
+          </View>
+
+          <HomeList
+            title={"Browse Newest Product"}
+            data={this.state.data.newest_products}
+            seeAll={"newest"}
           />
-        </View>
-
-        <HomeList
-          title={"Browse Newest Product"}
-          data={this.state.data.newest_products}
-          // onThumbnailPress={item =>
-          //   this.props.navigation.push("ProductDescription", item)
-          // }
+          <HomeList
+            title={"Browse Most Popular Product"}
+            data={this.state.data.best_seller_products}
+            seeAll={"seller"}
+          />
+        </ScrollView>
+        <Button
+          icon={{
+            type: "font-awesome",
+            name: "search",
+            color: "white"
+          }}
+          raised
+          containerStyle={{ bottom: 10, right: 10, position: "absolute" }}
+          buttonStyle={{
+            width: 50,
+            height: 50,
+            borderRadius: 50,
+            backgroundColor: "#2d6a27"
+          }}
+          onPress={() =>
+            this.props.navigation.navigate("ProductBrowse", {
+              seeAll: "search"
+            })
+          }
         />
-        <HomeList
-          title={"Browse Most Popular Product"}
-          data={this.state.data.best_seller_products}
-        />
-
-        {/* <Button
-          title={"Signup"}
-          onPress={() => this.props.navigation.navigate("SignUp")}
-        /> */}
-      </ScrollView>
+      </View>
     );
   }
 }

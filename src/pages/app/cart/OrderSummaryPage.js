@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Text } from "react-native";
+import { View, Text, ActivityIndicator } from "react-native";
 import { Button } from "react-native-elements";
 import { getSummary, finalizeOrder, catchError } from "../../../misc/api";
 
@@ -88,6 +88,23 @@ class OrderSummaryPage extends Component {
             loading: false,
             agent
           });
+          const {
+            first_name,
+            last_name,
+            address,
+            contact_number,
+            email
+          } = this.state.customer_details;
+          if (
+            first_name == "" ||
+            last_name == "" ||
+            address == "" ||
+            contact_number == "" ||
+            email == ""
+          ) {
+            alert("Please complete the form");
+            this.props.navigation.goBack();
+          }
         } else {
           this.setState({ loading: false });
           this.props.navigation.goBack();
@@ -137,26 +154,27 @@ class OrderSummaryPage extends Component {
           use_loyalty_points,
           use_mine
         };
-    this.setState({ loading: true });
+    this.setState({ buttonLoading: true });
     finalizeOrder(data)
       .then(res => {
-        this.setState({ loading: false });
-        let message = "";
-        message = res.data.msg;
         if (res.data.success) {
-          alert(message.replace(/\\n/g, "\n"));
+          alert(res.data.msg.replace(/\\n/g, "\n\n"));
           this.props.navigation.popToTop();
         } else {
           alert(res.data.msg);
         }
       })
       .catch(err => {
-        this.setState({ loading: false });
         alert(catchError(err));
+      })
+      .finally(() => {
+        this.setState({ buttonLoading: false });
       });
   };
 
   render() {
+    if (this.state.loading)
+      return <ActivityIndicator size={"large"} style={{ padding: 20 }} />;
     return (
       <View style={styles.container}>
         <View
@@ -399,6 +417,7 @@ class OrderSummaryPage extends Component {
           buttonStyle={{ backgroundColor: "#f5a210", borderRadius: 10 }}
           containerStyle={{ width: "80%", bottom: 10, position: "absolute" }}
           onPress={() => this.postFinalizeOrder()}
+          loading={this.state.buttonLoading}
           raised
         />
       </View>

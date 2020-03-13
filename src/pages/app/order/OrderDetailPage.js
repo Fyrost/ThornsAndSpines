@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Text, ScrollView } from "react-native";
+import { View, Text, ScrollView, ActivityIndicator } from "react-native";
 import { Button } from "react-native-elements";
 import { showOrder, catchError } from "../../../misc/api";
 import OrderProductList from "../../../component/OrderProductList";
@@ -33,41 +33,14 @@ class OrderDetailPage extends Component {
     this.setState({ loading: true });
     showOrder(this.props.navigation.state.params.code)
       .then(res => {
-        const {
-          code,
-          remarks,
-          total,
-          loyalty_points,
-          status,
-          payment_method,
-          delivery_date,
-          comment,
-          products,
-          shipping_agent,
-          shipping_fee,
-          recipient,
-          grand_total
-        } = res.data.data;
-        this.setState({
-          loading: false,
-          code,
-          remarks,
-          total,
-          loyalty_points,
-          status,
-          payment_method,
-          delivery_date,
-          comment,
-          products,
-          shipping_agent,
-          shipping_fee,
-          recipient,
-          grand_total
-        });
+        const data = res.data.data;
+        this.setState(data);
       })
       .catch(err => {
-        this.setState({ loading: false });
         alert(catchError(err));
+      })
+      .finally(() => {
+        this.setState({ loading: false });
       });
   }
   render() {
@@ -86,6 +59,13 @@ class OrderDetailPage extends Component {
       recipient,
       grand_total
     } = this.state;
+    if (this.state.loading)
+      return (
+        <ActivityIndicator
+          size={"large"}
+          style={{ justifyContent: "center", marginTop: 20 }}
+        />
+      );
     return (
       <View>
         <NavigationEvents onWillFocus={() => this.getOrderDetail()} />

@@ -1,13 +1,14 @@
 import React, { Component } from "react";
-import { View, Text } from "react-native";
+import { View, Text, Alert } from "react-native";
 import { Overlay, Input, Button } from "react-native-elements";
-import { updateCart, catchError } from "../misc/api";
+import { updateCart, deleteCart, catchError } from "../misc/api";
 
 class CartEditOverlay extends Component {
   state = {
     loading: false,
     quantityError: ""
   };
+
   updateCart = ({ cartId, quantity, onUpdatePress }) => {
     this.setState({ loading: true });
     updateCart({ cartId, quantity })
@@ -30,6 +31,22 @@ class CartEditOverlay extends Component {
       });
   };
 
+  deleteItem = ({ cartId, onUpdatePress }) => {
+    this.setState({ loading: true });
+    deleteCart({ cartId })
+      .then(res => {
+        if (res.data.success) {
+          onUpdatePress();
+        }
+        alert(res.data.msg);
+        this.setState({ loading: false });
+      })
+      .catch(err => {
+        alert(catchError(err));
+        this.setState({ loading: false });
+      });
+  };
+
   render() {
     const {
       productName,
@@ -37,6 +54,7 @@ class CartEditOverlay extends Component {
       onChangeQuantity,
       potType,
       cartId,
+      onBackdropPress,
       onUpdatePress,
       ...props
     } = this.props;
@@ -47,6 +65,7 @@ class CartEditOverlay extends Component {
         borderRadius={0}
         overlayStyle={{ margin: 0, padding: 20, borderRadius: 10 }}
         windowBackgroundColor={"rgba(0, 0, 0, 0.7)"}
+        onBackdropPress={onBackdropPress}
         {...props}
       >
         <View style={{ justifyContent: "center", alignItems: "center" }}>
@@ -69,6 +88,33 @@ class CartEditOverlay extends Component {
             buttonStyle={{ backgroundColor: "#f5a210", borderRadius: 10 }}
             loading={this.state.loading}
             onPress={() => this.updateCart({ cartId, quantity, onUpdatePress })}
+          />
+          <Button
+            title={"Delete"}
+            containerStyle={{ marginTop: 10 }}
+            buttonStyle={{ backgroundColor: "red", borderRadius: 10 }}
+            loading={this.state.loading}
+            onPress={() =>
+              Alert.alert(
+                "",
+                "Delete item from cart?",
+                [
+                  {
+                    text: "Cancel",
+                    onPress: () => {
+                      return null;
+                    }
+                  },
+                  {
+                    text: "Confirm",
+                    onPress: () => {
+                      this.deleteItem({ cartId, onUpdatePress });
+                    }
+                  }
+                ],
+                { cancelable: false }
+              )
+            }
           />
         </View>
       </Overlay>
