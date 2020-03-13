@@ -1,22 +1,23 @@
 import React, { Component } from "react";
 import { View, ActivityIndicator } from "react-native";
-import OrderList from "../../../component/OrderList";
-import { getOrders, catchError } from "../../../misc/api";
 import { NavigationEvents } from "react-navigation";
+import { getContacts, catchError } from "../../../../misc/api";
+import ContactList from "../../../../component/ContactList";
 
-class OrdersPage extends Component {
+class ContactUsPage extends Component {
   state = {
-    loading: false,
-    orders: []
+    contacts: []
   };
+
   UNSAFE_componentWillMount() {
-    this.getOrders();
+    this.getContacts();
   }
-  getOrders() {
+
+  getContacts = () => {
     this.setState({ loading: true });
-    getOrders()
+    getContacts()
       .then(res => {
-        this.setState({ orders: res.data.data });
+        this.setState({ contacts: res.data.data });
       })
       .catch(err => {
         alert(catchError(err));
@@ -24,7 +25,8 @@ class OrdersPage extends Component {
       .finally(() => {
         this.setState({ loading: false });
       });
-  }
+  };
+
   render() {
     if (this.state.loading)
       return (
@@ -35,11 +37,15 @@ class OrdersPage extends Component {
       );
     return (
       <View>
-        <NavigationEvents onWillFocus={() => this.getOrders()} />
-        <OrderList data={this.state.orders} />
+        <NavigationEvents
+          onWillFocus={() => {
+            this.getContacts();
+          }}
+        />
+        <ContactList data={this.state.contacts} />
       </View>
     );
   }
 }
 
-export default OrdersPage;
+export default ContactUsPage;

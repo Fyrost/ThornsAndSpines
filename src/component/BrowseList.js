@@ -5,16 +5,16 @@ import {
   FlatList,
   TouchableOpacity,
   Image,
-  Dimensions
+  Dimensions,
+  ActivityIndicator
 } from "react-native";
-import { Button } from "react-native-elements";
 import { withNavigation } from "react-navigation";
 
-class HomeList extends Component {
+class BrowseList extends Component {
   keyExtractor = (item, index) => index.toString();
 
   renderItem(item, navigation) {
-    const width = Dimensions.get("screen").width / 4;
+    const width = Dimensions.get("screen").width / 3;
     return (
       <TouchableOpacity
         onPress={() => {
@@ -39,6 +39,17 @@ class HomeList extends Component {
             source={{ uri: item.img }}
           />
         </View>
+        <View
+          style={{
+            width: width,
+            justifyContent: "center",
+            alignItems: "center",
+            paddingHorizontal: 5,
+            marginBottom: 10
+          }}
+        >
+          <Text style={{ textAlign: "center" }}>{item.name}</Text>
+        </View>
       </TouchableOpacity>
     );
   }
@@ -52,46 +63,40 @@ class HomeList extends Component {
       listFooterComponent,
       onPress,
       seeAll,
+      loading,
       ...props
     } = this.props;
-    const { keyExtractor, renderItem } = this;
+    const { keyExtractor, renderItem, renderEmpty } = this;
+    if (loading)
+      return <ActivityIndicator size={"large"} style={{ padding: 20 }} />;
     if (error) return <Text>{error}</Text>;
     return (
       <View>
-        <View
-          style={{
-            flex: 1,
-            padding: 5,
-            flexDirection: "row",
-            justifyContent: "space-between"
-          }}
-        >
-          <Text style={{ color: "#2d6a27" }}>{title}</Text>
-          <Button
-            title={"SEE ALL"}
-            buttonStyle={{ height: 20, backgroundColor: "#2d6a27" }}
-            titleStyle={{ fontSize: 8 }}
-            onPress={() =>
-              this.props.navigation.navigate("ProductBrowse", { seeAll })
-            }
-          />
-        </View>
-
-        <View style={{ backgroundColor: "#edeeef", padding: 5 }}>
-          <FlatList
-            {...props}
-            keyExtractor={keyExtractor}
-            numColumns={4}
-            data={data}
-            renderItem={({ item }) => renderItem(item, this.props.navigation)}
-          />
-        </View>
+        <FlatList
+          {...props}
+          keyExtractor={keyExtractor}
+          numColumns={3}
+          data={data}
+          renderItem={({ item }) => renderItem(item, this.props.navigation)}
+          ListEmptyComponent={
+            <View
+              style={{
+                flex: 1,
+                justifyContent: "center",
+                alignItems: "center",
+                padding: 10
+              }}
+            >
+              <Text>No Product Found...</Text>
+            </View>
+          }
+        />
       </View>
     );
   }
 }
 
-export default withNavigation(HomeList);
+export default withNavigation(BrowseList);
 
 const defaultStyle = {
   emptyContainer: {

@@ -1,10 +1,18 @@
 import React, { Component } from "react";
-import { View, ScrollView, Text, Picker, Image } from "react-native";
+import {
+  View,
+  ScrollView,
+  Text,
+  Picker,
+  Image,
+  ActivityIndicator
+} from "react-native";
 import { getProduct, addToCart, catchError } from "../../../misc/api";
 import { Button } from "react-native-elements";
 
 class ProductDescriptionPage extends Component {
   state = {
+    buttonLoading: false,
     loading: false,
     productDetails: {},
     pots: {},
@@ -21,6 +29,7 @@ class ProductDescriptionPage extends Component {
         this.setState({
           productDetails: res.data.data.product_details,
           pots: res.data.data.pots,
+          pot: Object.keys(res.data.data.pots)[0],
           loading: false
         });
         this.props.navigation.setParams({
@@ -36,7 +45,7 @@ class ProductDescriptionPage extends Component {
   postCart = () => {
     const { pot } = this.state;
     const { id } = this.state.productDetails;
-    this.setState({ loading: true });
+    this.setState({ buttonLoading: true });
     addToCart({
       product_id: id,
       pot_id: pot
@@ -44,17 +53,18 @@ class ProductDescriptionPage extends Component {
       .then(res => {
         alert(res.data.msg);
 
-        this.setState({ loading: false });
+        this.setState({ buttonLoading: false });
       })
       .catch(err => {
         this.setState({
-          loading: false
+          buttonLoading: false
         });
         alert(catchError(err));
       });
   };
 
   render() {
+    if (this.state.loading) return <ActivityIndicator size="large" />;
     return (
       <View style={{ flex: 1, position: "relative" }}>
         <View style={{ justifyContent: "center" }}>
@@ -135,6 +145,7 @@ class ProductDescriptionPage extends Component {
             buttonStyle={{ backgroundColor: "#f5a210", borderRadius: 10 }}
             containerStyle={{ width: "80%" }}
             onPress={() => this.postCart()}
+            loading={this.state.buttonLoading}
             raised
           />
         </View>

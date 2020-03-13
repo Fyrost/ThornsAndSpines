@@ -1,19 +1,17 @@
 import React, { Component } from "react";
-import { View, Text, ImageBackground, Image, ScrollView } from "react-native";
+import { View, Text, ImageBackground } from "react-native";
 import { Button, Input, Icon } from "react-native-elements";
-import { loginAccount, test, catchError } from "../../misc/api";
+import { loginAccount, catchError } from "../../misc/api";
 import KeyBoardShift from "../../component/KeyboardShift";
-import { ImageBrowser } from "expo-image-picker-multiple";
 class LoginPage extends Component {
   state = {
     loading: false,
-    email: "rytesoro10@mail.com",
-    password: "Pass123!",
+    email: "",
+    password: "",
     secureEntry: true,
     eyeIcon: "eye",
     error: "",
-    layout: true,
-    baseURL: "192.168.1.4"
+    layout: true
   };
 
   postLoginAccount = () => {
@@ -24,9 +22,6 @@ class LoginPage extends Component {
         this.setState({ loading: false });
         if (res.data.success) {
           global.api_token = res.data.api_token;
-          // Axios.defaults.params = {
-          //   api_token: res.data.api_token
-          // };
           this.props.navigation.navigate("app");
         } else {
           this.setState({ error: res.data.msg });
@@ -40,36 +35,7 @@ class LoginPage extends Component {
       });
   };
 
-  // overlay = () => {
-  //   return (
-  //     <Overlay
-  //       isVisible={this.state.layout}
-  //       height={"auto"}
-  //       overlayContainerStyle={{ padding: 50 }}
-  //       borderRadius={0}
-  //       windowBackgroundColor={"rgba(0, 0, 0, .8)"}
-  //     >
-  //       <View>
-  //         <Input
-  //           label="Base URL:"
-  //           value={this.state.baseURL}
-  //           onChangeText={baseURL => this.setState({ baseURL })}
-  //         />
-  //         <Button
-  //           title={"enter"}
-  //           onPress={() => {
-  //             Axios.defaults.baseURL = `http://${this.state.baseURL}/thornsandspine/public/`;
-  //             Axios.defaults.headers.common["Accept"] = "application/json";
-  //             this.setState({ layout: false });
-  //           }}
-  //         />
-  //       </View>
-  //     </Overlay>
-  //   );
-  // };
-
   render() {
-    const { navigate } = this.props.navigation;
     const { email, password } = this.state;
     return (
       <ImageBackground
@@ -79,8 +45,6 @@ class LoginPage extends Component {
       >
         <KeyBoardShift>
           <View style={styles.container}>
-            {/* {this.overlay()} */}
-            <Text>Logo</Text>
             <Input
               placeholder="sample@email.com"
               value={email}

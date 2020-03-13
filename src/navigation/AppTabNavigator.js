@@ -4,7 +4,7 @@ import { Icon } from "react-native-elements";
 import ProductNavigator from "./app/ProductStackNavigator";
 import CartNavigator from "./app/CartStackNavigator";
 import OrderNavigator from "./app/OrdersStackNavigator";
-import AccountNavigator from "./app/AccountStackNavigator";
+import MoreNavigator from "./app/MoreStackNavigator";
 
 export default createBottomTabNavigator(
   {
@@ -26,7 +26,7 @@ export default createBottomTabNavigator(
         )
       }
     },
-    order:{
+    order: {
       screen: OrderNavigator,
       navigationOptions: {
         tabBarLabel: "Orders",
@@ -35,12 +35,12 @@ export default createBottomTabNavigator(
         )
       }
     },
-    account: {
-      screen: AccountNavigator,
+    more: {
+      screen: MoreNavigator,
       navigationOptions: {
-        tabBarLabel: "Account",
+        tabBarLabel: "More",
         tabBarIcon: ({ tintColor }) => (
-          <Icon type="font-awesome" name={"user"} color={tintColor} />
+          <Icon type="font-awesome" name={"ellipsis-h"} color={tintColor} />
         )
       }
     }

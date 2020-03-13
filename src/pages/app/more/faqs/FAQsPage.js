@@ -1,22 +1,22 @@
 import React, { Component } from "react";
 import { View, ActivityIndicator } from "react-native";
-import OrderList from "../../../component/OrderList";
-import { getOrders, catchError } from "../../../misc/api";
 import { NavigationEvents } from "react-navigation";
-
-class OrdersPage extends Component {
+import { getFAQs, catchError } from "../../../../misc/api";
+import FAQList from "../../../../component/FAQList";
+class FAQsPage extends Component {
   state = {
-    loading: false,
-    orders: []
+    faqs: []
   };
+
   UNSAFE_componentWillMount() {
-    this.getOrders();
+    this.getFAQs();
   }
-  getOrders() {
+
+  getFAQs = () => {
     this.setState({ loading: true });
-    getOrders()
+    getFAQs()
       .then(res => {
-        this.setState({ orders: res.data.data });
+        this.setState({ faqs: res.data.data });
       })
       .catch(err => {
         alert(catchError(err));
@@ -24,7 +24,8 @@ class OrdersPage extends Component {
       .finally(() => {
         this.setState({ loading: false });
       });
-  }
+  };
+
   render() {
     if (this.state.loading)
       return (
@@ -35,11 +36,24 @@ class OrdersPage extends Component {
       );
     return (
       <View>
-        <NavigationEvents onWillFocus={() => this.getOrders()} />
-        <OrderList data={this.state.orders} />
+        <NavigationEvents
+          onWillFocus={() => {
+            this.getFAQs();
+          }}
+        />
+        <FAQList data={this.state.faqs} />
       </View>
     );
   }
 }
 
-export default OrdersPage;
+const styles = {
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center"
+  }
+};
+
+export default FAQsPage;
