@@ -10,11 +10,18 @@ const urlHome = `api/product`;
 const urlProduct = code => `api/product/${code}`;
 const urlCart = `api/cart`;
 const urlUpdateCart = cartId => `${urlCart}/update/${cartId}`;
+const urlDeleteCart = cartId => `${urlCart}/delete/${cartId}`;
 const urlCreateOrder = `api/order/create`;
 const urlOrderSummary = `api/order/summary`;
 const urlOrder = `api/order`;
 const urlShowOrder = code => `api/order/show/${code}`;
 const urlUploadReceipt = code => `api/order/update/${code}`;
+const urlFAQs = `api/faq`;
+const urlFAQShow = id => `api/faq/${id}`;
+const urlContact = `api/configuration`;
+const urlUserInfo = `api/user/show`;
+const urlUserEditInfo = `api/user/edit`;
+const urlUserUpdate = `api/user/update`;
 
 export const catchError = err => {
   err.config && console.log(err.config);
@@ -44,9 +51,9 @@ export const getProvince = () => {
   });
 };
 
-export const getCity = provinceId => {
+export const getCity = province_id => {
   return Axios({
-    url: urlCity(provinceId),
+    url: urlCity(province_id),
     method: "get"
   });
 };
@@ -58,7 +65,7 @@ export const createAccount = ({
   first_name,
   last_name,
   address,
-  shipping_fees_id,
+  city_province_id,
   contact_number
 }) => {
   return Axios({
@@ -127,6 +134,16 @@ export const getProduct = code => {
   });
 };
 
+export const getBrowseProduct = ({ type, search }) => {
+  return Axios({
+    url: `${urlHome}/${type}`,
+    params: {
+      api_token: global.api_token,
+      search
+    }
+  });
+};
+
 export const addToCart = ({ product_id, pot_id }) => {
   return Axios({
     url: urlCart,
@@ -158,6 +175,16 @@ export const updateCart = ({ cartId, quantity }) => {
     data: {
       quantity
     },
+    params: {
+      api_token: global.api_token
+    }
+  });
+};
+
+export const deleteCart = ({ cartId }) => {
+  return Axios({
+    url: urlDeleteCart(cartId),
+    method: "post",
     params: {
       api_token: global.api_token
     }
@@ -257,6 +284,74 @@ export const uploadReceipt = ({ img, code }) => {
   });
   return Axios({
     url: urlUploadReceipt(code),
+    method: "post",
+    data,
+    params: {
+      api_token: global.api_token
+    }
+  });
+};
+
+export const getFAQs = () => {
+  return Axios({
+    url: urlFAQs
+  });
+};
+
+export const showFAQ = ({ id }) => {
+  return Axios({
+    url: urlFAQShow(id)
+  });
+};
+
+export const getContacts = () => {
+  return Axios({
+    url: urlContact,
+    params: {
+      api_token: global.api_token
+    }
+  });
+};
+
+export const getUserInfo = () => {
+  return Axios({
+    url: urlUserInfo,
+    params: {
+      api_token: global.api_token
+    }
+  });
+};
+
+export const getUserEdit = () => {
+  return Axios({
+    url: urlUserEditInfo,
+    params: {
+      api_token: global.api_token
+    }
+  });
+};
+
+export const updateUser = ({
+  password,
+  password1,
+  first_name,
+  last_name,
+  address,
+  city_province_id,
+  contact_number
+}) => {
+  let data = new FormData();
+  if (password && password1) {
+    data.append("password", password);
+    data.append("password1", password1);
+  }
+  data.append("first_name", first_name);
+  data.append("last_name", last_name);
+  data.append("address", address);
+  data.append("city_province_id", city_province_id);
+  data.append("contact_number", contact_number);
+  return Axios({
+    url: urlUserUpdate,
     method: "post",
     data,
     params: {
