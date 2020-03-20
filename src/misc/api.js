@@ -7,6 +7,7 @@ const urlVerify = `api/email/verify`;
 const urlResend = `api/email/resend`;
 const urlLoginAccount = `api/login`;
 const urlHome = `api/product`;
+const urlPromotion = `api/promotion`;
 const urlProduct = code => `api/product/${code}`;
 const urlCart = `api/cart`;
 const urlUpdateCart = cartId => `${urlCart}/update/${cartId}`;
@@ -45,17 +46,11 @@ export const catchError = err => {
 };
 
 export const getProvince = () => {
-  return Axios({
-    url: urlProvince,
-    method: "get"
-  });
+  return Axios({ url: urlProvince });
 };
 
 export const getCity = province_id => {
-  return Axios({
-    url: urlCity(province_id),
-    method: "get"
-  });
+  return Axios({ url: urlCity(province_id) });
 };
 
 export const createAccount = ({
@@ -120,9 +115,12 @@ export const getHome = () => {
     url: urlHome,
     params: {
       api_token: global.api_token
-    },
-    method: "get"
+    }
   });
+};
+
+export const getHeaderHome = () => {
+  return Axios({ url: urlPromotion });
 };
 
 export const getProduct = code => {
@@ -293,15 +291,11 @@ export const uploadReceipt = ({ img, code }) => {
 };
 
 export const getFAQs = () => {
-  return Axios({
-    url: urlFAQs
-  });
+  return Axios({ url: urlFAQs });
 };
 
 export const showFAQ = ({ id }) => {
-  return Axios({
-    url: urlFAQShow(id)
-  });
+  return Axios({ url: urlFAQShow(id) });
 };
 
 export const getContacts = () => {
